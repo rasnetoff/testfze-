@@ -1,0 +1,11 @@
+{
+  "name": "ircbot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.mjs",
+  "scripts": {
+    "start": "node --experimental-modules ./server.mjs"
+  },
+  "author": "",
+  "license": "ISC"
+}
