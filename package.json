@@ -7,5 +7,10 @@
     "start": "node --experimental-modules ./server.mjs"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "assert": "^2.0.0",
+    "base85": "^2.2.0",
+    "bignum": "^0.13.0"
+  }
 }
