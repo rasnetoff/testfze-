@@ -54,17 +54,17 @@ export default async function initializeBot () {
       return false; // can stop parsing for now
     }
 
-    console.log("Packet type %d", p.type);
-    console.log(p.data.toString('hex'));
+    // console.log("Packet type # %d", p.type);
+    // console.log(p.data.toString('hex'));
 
     // assign event handling function
     if (p.type in handler) {
-      console.log('type key exists in handle');
+      console.log("Packet type # " + p.type + ' found');
       handler[p.type](p.data, new pack.Unpacker(p.data));
       // handler should be able to handle unpacked data of this type
     } else {
-      console.log("Unknown packet type, # %d", p.type);
-      console.log(p.data.toString('hex'));
+      console.log("Packet type # " + p.type + ' is unknown');
+      // console.log(p.data.toString('hex'));
     }
     return true; // keep on parsing (until not enough data)
   }

@@ -37,7 +37,7 @@ var AOCP =
 
 var test = false
 var xtest = true
-//console.log(data)
+// console.log(data)
 //
 function isInteger(n)
 {

@@ -13,11 +13,11 @@ import assert from 'assert';
 
 // when login seed is provided to allow login
 export default socket => data => {
+  console.log(); output('handleLoginSeed');
+
   // shorthand
   const login = settings.User;
   const pass = settings.Password;
-
-  output('LOGIN_SEED response');
 
   const seedLength = data.readInt16BE(0);
   assert.equal(seedLength, data.length - 2); // quick sanity check

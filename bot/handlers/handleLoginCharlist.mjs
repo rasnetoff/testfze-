@@ -10,7 +10,7 @@ import settings from '../../settings.json';
 
 // select Botname from account's charlist
 export default socket => data => {
-  output('LOGIN_CHARLIST response');
+  console.log(); output('handleLoginCharlist');
 
   // shorthand
   const botname = settings.Botname;
@@ -18,13 +18,13 @@ export default socket => data => {
   // unpack the data for interpretation
   const chars = pack.unpack(data);
 
-  output(chars);
+  // output(chars);
 
   // find id of the bot in character list provided
   let botId;
   for (let key in chars) {
     if (key.toLowerCase() === botname.toLowerCase()) {
-      console.log(botname + ' Found');
+      output(botname + ' bot character found');
       const i = Object.keys(chars).indexOf(key);
       botId = chars[Object.keys(chars)[i]].id;
       break;
