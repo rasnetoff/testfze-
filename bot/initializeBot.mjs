@@ -7,14 +7,14 @@ import output from '../helpers/output.mjs';
 
 // socket communication
 import net from 'net';
-const s = new net.Socket();
+const socket = new net.Socket();
 
  // does connection formating & reading (nephbot chat logic)
 import auth from '../nephbot/auth.js';
 import pack from '../nephbot/pack.js';
 
 import handle from './handle';
-const handler = handle(s);
+const handler = handle(socket);
 
 // server settings (TODO: place in separate file)
 // found on https://github.com/Budabot/Budabot/blob/master/core/BotRunner.php
@@ -25,22 +25,20 @@ const PORT = '7106';
 export default async function initializeBot () {
 
   output('attempting to connect');
-
   // connect to server (converting callback in .connect() to promise)
   // (TODO: add reject error and catch)
   await (() => new Promise((resolve, reject) => {
-      s.connect(PORT, HOST, () => {
+    socket.connect(PORT, HOST, () => {
         output('Connection Established!');
         resolve();
       });
   }))();
 
-
-  // what to do when readable event detected on socket connection
+  // what to do async when readable event detected on socket connection
   let remains = new Buffer.alloc(0); // start with null buffer
-  s.on('readable', () => {
+  socket.on('readable', () => {
     output('Readable event!');
-    let newlyRead = s.read(); // read new stuff
+    let newlyRead = socket.read(); // read new stuff
     remains = Buffer.concat([remains, newlyRead]); // add to unparsed
     while ( parseChunk(remains) ); // parse unparsed remains until done
   });
@@ -60,12 +58,12 @@ export default async function initializeBot () {
     console.log(p.data.toString('hex'));
 
     // assign event handling function
-    if (p.type in handle(s)) {
+    if (p.type in handler) {
       console.log('type key exists in handle');
       handler[p.type](p.data, new pack.Unpacker(p.data));
       // handler should be able to handle unpacked data of this type
     } else {
-      console.log("Unknown packet type %d", p.type);
+      console.log("Unknown packet by handle, type %d", p.type);
       console.log(p.data.toString('hex'));
     }
     return true; // keep on parsing (until not enough data)
