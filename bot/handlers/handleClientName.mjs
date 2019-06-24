@@ -14,11 +14,11 @@ export default st => (data, unpacked) => {
   const userId = unpacked.I();  // id of user
   const userName = unpacked.S(); // name of user
 
-  output('userId:', userId);
-  output('userName: "' + userName + '"');
+  output('userId: ' + userId + ' is userName: "' + userName + '"');
+  output();
   unpacked.done()
 
-  // add userName to memory to use easily
+  // add userId/userName pair to state to use easily
 
   // create userIds object in state if not one there already
   if (!st.userIds) {
@@ -44,4 +44,5 @@ export default st => (data, unpacked) => {
   // ];
   // socket.write(auth.assemble_packet(type, pack.pack(spec)));
   // output('%s -> %d', response, userId);
+  output('handleClientName complete'); console.log();
 }

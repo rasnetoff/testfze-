@@ -13,9 +13,11 @@ export default st => (data, unpacked) => {
   const text = unpacked.S(); // text user sent
   const unknownPart = unpacked.S();
 
-  output('  userId:', userId);
-  output('  text: "' + text + '"');
-  output('  unknown part:', unknownPart);
+  const userName = st.userIds ? st.userIds[userId] ? st.userIds[userId].userName : undefined : undefined;
+
+  output('  PM from', userName || userId, ' "' + text + '"');
+  output();
+  // output('  unknown part:', unknownPart);
 
   unpacked.done();
 
@@ -37,4 +39,6 @@ export default st => (data, unpacked) => {
   // socket.write(auth.assemble_packet(type, pack.pack(spec)));
   // output('message:', response);
   // output('sent to:', userId);
+
+  output('handlePM complete'); console.log();
 }
