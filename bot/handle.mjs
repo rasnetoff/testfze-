@@ -10,27 +10,27 @@ import handleBuddyRemove from './handlers/handleBuddyRemove';
 import handleClientName from './handlers/handleClientName';
 
 // object of response handling functions with events as keys
-export default function handle (socket) {
+export default function handle (st) {
 
   const respondTo = {}; // create object
 
   // when login seed is provided to allow login
-  respondTo[auth.AOCP.LOGIN_SEED] = handleLoginSeed(socket);
+  respondTo[auth.AOCP.LOGIN_SEED] = handleLoginSeed(st);
 
   // when char list is returned
-  respondTo[auth.AOCP.LOGIN_CHARLIST] = handleLoginCharlist(socket);
+  respondTo[auth.AOCP.LOGIN_CHARLIST] = handleLoginCharlist(st);
 
   // when bot gets a pm (testing by instantly responding)
-  respondTo[auth.AOCP.MESSAGE_PRIVATE] = handlePM(socket);
+  respondTo[auth.AOCP.MESSAGE_PRIVATE] = handlePM(st);
 
   // when buddy was added
-  respondTo[auth.AOCP.BUDDY_ADD] = handleBuddyAdd(socket);
+  respondTo[auth.AOCP.BUDDY_ADD] = handleBuddyAdd(st);
 
   // after buddy is removed
-  respondTo[auth.AOCP.BUDDY_REMOVE] = handleBuddyRemove(socket);
+  respondTo[auth.AOCP.BUDDY_REMOVE] = handleBuddyRemove(st);
 
   // when client name packet is seen (after name added to recent/friends list)
-  respondTo[auth.AOCP.CLIENT_NAME] = handleClientName(socket);
+  respondTo[auth.AOCP.CLIENT_NAME] = handleClientName(st);
 
   return respondTo;
 }

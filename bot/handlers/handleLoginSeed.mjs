@@ -12,7 +12,7 @@ import settings from '../../settings.json';
 import assert from 'assert';
 
 // when login seed is provided to allow login
-export default socket => data => {
+export default st => data => {
   console.log(); output('handleLoginSeed');
 
   // shorthand
@@ -30,5 +30,5 @@ export default socket => data => {
     ['S', auth.generate_login_key(seed, login, pass)]
   ])
   const pp = auth.assemble_packet(auth.AOCP.LOGIN_REQUEST, spec);
-  socket.write(pp);
+  st.socket.write(pp);
 }

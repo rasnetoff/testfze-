@@ -5,16 +5,24 @@ import assert from 'assert';
 // UTC time stamped console output
 import output from '../helpers/output.mjs';
 
+// designate state object location
+const st = {};
+// todo: add reading from past state
+
+
 // socket communication
 import net from 'net';
-const socket = new net.Socket();
+st.socket = new net.Socket(); // add to state
+const socket = st.socket; //short hand
 
  // does connection formating & reading (nephbot chat logic)
 import auth from '../nephbot/auth.js';
 import pack from '../nephbot/pack.js';
 
 import handle from './handle';
-const handler = handle(socket);
+const handler = handle(st);
+
+import updateStateLoop from './updateStateLoop';
 
 // server settings (TODO: place in separate file)
 // found on https://github.com/Budabot/Budabot/blob/master/core/BotRunner.php
@@ -50,7 +58,7 @@ export default async function initializeBot () {
     remains = p.remains; // update remains to only unparsed remains
 
     if (!p.data) { // if not enough data
-      console.log('Partial packet');
+      output('Partial packet');
       return false; // can stop parsing for now
     }
 
@@ -59,15 +67,18 @@ export default async function initializeBot () {
 
     // assign event handling function
     if (p.type in handler) {
-      console.log("Packet type # " + p.type + ' found');
+      output("Packet type # " + p.type + ' found');
       handler[p.type](p.data, new pack.Unpacker(p.data));
       // handler should be able to handle unpacked data of this type
     } else {
-      console.log("Packet type # " + p.type + ' is unknown');
+      output("Packet type # " + p.type + ' is unknown');
       // console.log(p.data.toString('hex'));
     }
     return true; // keep on parsing (until not enough data)
   }
+
+  // launch state update loop
+  updateStateLoop(st);
 
   output('End of initializeBot.mjs');
 }

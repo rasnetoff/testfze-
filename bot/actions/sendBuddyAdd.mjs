@@ -6,7 +6,7 @@ import pack from '../../nephbot/pack.js';
 import output from '../../helpers/output.mjs';
 
 // add buddy by userId
-export default (socket, userId) => {
+export default (st, userId) => {
   console.log(); output('sendBuddyAdd');
 
   const type = auth.AOCP.BUDDY_ADD;

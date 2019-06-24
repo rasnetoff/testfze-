@@ -7,8 +7,8 @@ import output from '../../helpers/output.mjs';
 
 // how to handle client name message
 // which happens when id is first looked up by game instance
-// can happen after first interaction w/ someone or if already on buddy list
-export default socket => (data, unpacked) => {
+// can happen after first interaction per session
+export default st => (data, unpacked) => {
   console.log(); output('handleClientName');
 
   const userId = unpacked.I();  // id of user
@@ -17,6 +17,22 @@ export default socket => (data, unpacked) => {
   output('userId:', userId);
   output('userName: "' + userName + '"');
   unpacked.done()
+
+  // add userName to memory to use easily
+
+  // create userIds object in state if not one there already
+  if (!st.userIds) {
+    st.userIds = {};
+  }
+  if (!st.userIds[userId]) {
+    st.userIds[userId] = {};
+    output('userId was not found but will be added');
+  } else {
+    output('userId was known and updated');
+  }
+  st.userIds[userId].userName = userName;
+
+  output('\n', st.userIds);
 
   // assemble packed packet with response & broadcast
   // const type = auth.AOCP.MESSAGE_PRIVATE;

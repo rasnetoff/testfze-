@@ -9,7 +9,7 @@ import output from '../../helpers/output.mjs';
 import settings from '../../settings.json';
 
 // select Botname from account's charlist
-export default socket => data => {
+export default st => data => {
   console.log(); output('handleLoginCharlist');
 
   // shorthand
@@ -36,5 +36,5 @@ export default socket => data => {
     ['I', botId]
   ]);
   const pp = auth.assemble_packet(auth.AOCP.LOGIN_SELECT, spec);
-  socket.write(pp);
+  st.socket.write(pp);
 }

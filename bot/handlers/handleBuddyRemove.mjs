@@ -6,7 +6,7 @@ import pack from '../../nephbot/pack.js';
 import output from '../../helpers/output.mjs';
 
 // how to handle private messages to bot
-export default socket => (data, unpacked) => {
+export default st => (data, unpacked) => {
   console.log(); output('handleBuddyRemove');
 
   const userId = unpacked.I();  // id of user

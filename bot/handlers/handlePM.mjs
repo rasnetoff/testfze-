@@ -5,10 +5,8 @@ import pack from '../../nephbot/pack.js';
 // UTC time stamped console output
 import output from '../../helpers/output.mjs';
 
-import sendBuddyRemove from '../actions/sendBuddyRemove';
-
 // how to handle private messages to bot
-export default socket => (data, unpacked) => {
+export default st => (data, unpacked) => {
   console.log(); output('handlePM');
 
   const userId = unpacked.I();  // id of  user who sent pm

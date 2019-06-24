@@ -6,7 +6,7 @@ import pack from '../../nephbot/pack.js';
 import output from '../../helpers/output.mjs';
 
 // how to handle buddy appearing in offline or online list
-export default socket => (data, unpacked) => {
+export default st => (data, unpacked) => {
   console.log(); output('handleBuddyAdd');
 
   const userId = unpacked.I();  // id of user
