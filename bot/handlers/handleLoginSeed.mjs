@@ -13,7 +13,7 @@ import assert from 'assert';
 
 // when login seed is provided to allow login
 export default st => data => {
-  console.log(); output('handleLoginSeed');
+  output(); output('handleLoginSeed');
 
   // shorthand
   const login = settings.User;

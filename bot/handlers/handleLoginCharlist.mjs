@@ -10,7 +10,7 @@ import settings from '../../settings.json';
 
 // select Botname from account's charlist
 export default st => data => {
-  console.log(); output('handleLoginCharlist');
+  output(); output('handleLoginCharlist');
 
   // shorthand
   const botname = settings.Botname;

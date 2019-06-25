@@ -1,10 +1,11 @@
 // UTC time stamped console output
 import output from '../../helpers/output';
 
-// sending pms
+// sending pms and pgms
 import sendPM from '../actions/sendPM';
+import sendPGM from '../actions/sendPGM';
 
-export default st => (userId, cmd) => {
+export default st => (userId, cmd, channel = false) => {
   output('points command');
 
 
@@ -41,12 +42,16 @@ export default st => (userId, cmd) => {
       } else {
         response = targetName + ' has 0 points.';
       }
-      sendPM(st, userId, response);
+
+      !channel
+        ? sendPM(st, userId, response)
+        : sendPGM(st, channel, response);
 
     } else {
 
-      sendPM(st, userId, 'Unknown user');
-
+      !channel
+        ? sendPM(st, userId, 'Unknown user')
+        : sendPGM(st, channel, 'Unknown user');
     }
     return undefined;
   }
@@ -57,7 +62,10 @@ export default st => (userId, cmd) => {
     try {
       // check admin list
       if (!st.admins[userName]) {
-        sendPM(st, userId, 'You do not have admin/mod permission');
+        !channel
+          ? sendPM(st, userId, 'You do not have admin/mod permission')
+          : sendPGM(st, channel, userName + ' does not have admin/mod permission');
+
         return undefined;
       }
 
@@ -80,21 +88,26 @@ export default st => (userId, cmd) => {
         const reason = params.slice(3, words).join(' ');
 
         const response =
-          amount + ' points added to ' + targetNameFixed +
-          ' by ' + userName + ' ( ' + reason + ' )';
+          amount + ' pts for ' + targetNameFixed
+          + ' from ' + userName + ' ( ' + reason + ' ) '
+          + '[balance = ' + st.userIds[targetId].points + ']';
         // output(response);
 
-        sendPM(st, userId, response);
+        !channel
+          ? sendPM(st, userId, response)
+          : sendPGM(st, channel, response);
 
         const time = new Date().toISOString();
         const target = st.userIds[targetId];
         target.history || (target.history = []);
-        target.history.push(time + ' :: ' + response);
+        target.history.unshift(time + ' :: ' + response);
 
-        console.log(target.history);
+        // console.log(target.history);
 
       } else if (!targetId) {
-        sendPM(st, userId, 'Unknown user');
+        !channel
+          ? sendPM(st, userId, 'Unknown user')
+          : sendPGM(st, channel, 'Unknown user');
       } else {
         throw 'target id or amount not provided correctly';
       }
@@ -107,7 +120,9 @@ export default st => (userId, cmd) => {
     }
   }
 
-  sendPM(st, userId, 'Invalid format: !points or !points user or !points give|add name number [reason]');
+  !channel
+    ? sendPM(st, userId, 'Invalid format: !points or !points user or !points give|add name number [reason]')
+    : sendPGM(st, channel, 'Invalid format: !points or !points user or !points give|add name number [reason]');
 
   // output('points.mjs done \n');
 }

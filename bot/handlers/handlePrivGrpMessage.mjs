@@ -3,26 +3,26 @@ import auth from '../../nephbot/auth.js';
 import pack from '../../nephbot/pack.js';
 
 // UTC time stamped console output
-import output from '../../helpers/output';
+import output from '../../helpers/output.mjs';
 
 // import known commands
 import commands from '../commands';
 
-// how to handle private messages to bot
+// how to handle priv group messages
 export default st => (data, unpacked) => {
-  output(); output('handlePM');
+  output(); output('handlePrivGrpMessage');
 
-  const userId = unpacked.I();  // id of  user who sent pm
-  const msg = unpacked.S(); // text user sent
+  const botId = unpacked.I();
+  const userId = unpacked.I();
+  const msg = unpacked.S();
   const unknownPart = unpacked.S();
-  unpacked.done()
+  unpacked.done();
 
   const userName = st.userIds[userId].userName;
+  const botName = st.userIds[botId].userName;
 
-  output('  PM from', userName, ': ' + msg);
-  // output('  unknown part:', unknownPart);
+  output('  [' + botName + ']: ', userName, ': ' + msg);
 
-  // if it's a command
   if (msg.charAt(0) === '!') {
     const firstWord = msg.split(' ')[0];
     const cmd = firstWord.replace('!', '');
@@ -30,12 +30,13 @@ export default st => (data, unpacked) => {
     const cmdHandler = commands(st);
 
     if (cmd in cmdHandler) {
-      cmdHandler[cmd](userId, cmdParams);
+      cmdHandler[cmd](userId, cmdParams, botId);
     } else {
       output('  not a known command: ' + cmd);
     }
 
   } else {
-    output('  not a command');
+    // output('  not a command');
   }
+
 }

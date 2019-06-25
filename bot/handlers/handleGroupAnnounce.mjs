@@ -7,12 +7,12 @@ import output from '../../helpers/output.mjs';
 
 // how to handle a new group channel
 export default st => (data, unpacked) => {
-  console.log(); output('handleGroupAnnounce');
+  output(); output('handleGroupAnnounce');
 
   const chBuffer = unpacked.G();
-  const channelName = u.S();
-  const unknownId = u.I();
-  const unknownPart = u.S();
+  const channelName = unpacked.S();
+  const unknownId = unpacked.I();
+  const unknownPart = unpacked.S();
   unpacked.done();
 
   output('channelName:', channelName);

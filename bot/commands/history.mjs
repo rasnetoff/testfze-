@@ -4,10 +4,11 @@ import output from '../../helpers/output';
 // settings
 import settings from '../../settings.json';
 
-// sending pms
+// sending pms and pgms
 import sendPM from '../actions/sendPM';
+import sendPGM from '../actions/sendPGM';
 
-export default st => (userId, cmd) => {
+export default st => (userId, cmd, channel = false) => {
   output('history command');
 
   // user who did request
@@ -29,12 +30,14 @@ export default st => (userId, cmd) => {
     targetName = params[0];
     page = parseInt(params[1]);
   } else {
-    sendPM(st, userId, 'Invalid format: !history user [page]');
+    !channel
+      ? sendPM(st, userId, 'Invalid format: !history user [page]')
+      : sendPGM(st, channel, 'Invalid format: !history user [page]');
     return undefined;
   }
 
-  output(cmd);
-  output(params);
+  // output(cmd);
+  // output(params);
 
   const targetNameFixed =
       targetName.charAt(0).toUpperCase() +
@@ -66,9 +69,13 @@ export default st => (userId, cmd) => {
       + '<br><br>' + historyCut.join('<br><br>') + '">'
       + targetNameFixed + ' History (page ' + page + ')</a> ';
 
-    sendPM(st, userId, response);
+    !channel
+      ? sendPM(st, userId, response)
+      : sendPGM(st, channel, response);
   } else {
-    sendPM(st, userId, 'Unknown user');
+    !channel
+      ? sendPM(st, userId, 'Unknown user')
+      : sendPGM(st, channel, 'Unknown user');
   }
 
   // if no extra paramters, just return number of points

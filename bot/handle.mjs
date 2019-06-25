@@ -8,7 +8,10 @@ import handlePM from './handlers/handlePM';
 import handleBuddyAdd from './handlers/handleBuddyAdd';
 import handleBuddyRemove from './handlers/handleBuddyRemove';
 import handleClientName from './handlers/handleClientName';
-import handleGroupAnnounce from './handlers/handleGroupAnnounce';
+// import handleGroupAnnounce from './handlers/handleGroupAnnounce';
+import handlePrivGrpCliJoin from './handlers/handlePrivGrpCliJoin';
+import handlePrivGrpMessage from './handlers/handlePrivGrpMessage';
+
 
 // object of connection response handling functions with type as keys
 export default function handle (st) {
@@ -34,7 +37,13 @@ export default function handle (st) {
   respondTo[auth.AOCP.CLIENT_NAME] = handleClientName(st);
 
   // handle new channel found
-  respondTo[auth.AOCP.GROUP_ANNOUNCE] = handleGroupAnnounce(st);
+  // respondTo[auth.AOCP.GROUP_ANNOUNCE] = handleGroupAnnounce(st);
+
+  // handle when someone joins private group
+  respondTo[auth.AOCP.PRIVGRP_CLIJOIN] = handlePrivGrpCliJoin(st);
+
+  // handle messages in private channel
+  respondTo[auth.AOCP.PRIVGRP_MESSAGE] = handlePrivGrpMessage(st);
 
   return respondTo;
 }

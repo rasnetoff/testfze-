@@ -7,7 +7,7 @@ import output from '../../helpers/output.mjs';
 
 // how to handle buddy appearing in offline or online list
 export default st => (data, unpacked) => {
-  console.log(); output('handleBuddyAdd');
+  output(); output('handleBuddyAdd');
 
   const userId = unpacked.I();  // id of user
   const userStatus = unpacked.I() == 1 ? 'online' : 'offline';

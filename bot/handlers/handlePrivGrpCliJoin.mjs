@@ -5,14 +5,15 @@ import pack from '../../nephbot/pack.js';
 // UTC time stamped console output
 import output from '../../helpers/output.mjs';
 
-// how to handle private messages to bot
+// how to handle priv group joining
 export default st => (data, unpacked) => {
-  coutput(); output('handleBuddyRemove');
+  output(); output('handlePrivGrpCliJoin');
 
-  const userId = unpacked.I();  // id of user
+  const botId = unpacked.I();
+  const userId = unpacked.I();
   unpacked.done();
 
-  output('userId:', userId);
-  // output('unknown part:', unknownPart);
-  output(unpacked);
+  const userName = st.userIds[userId].userName;
+
+  output('  ' + userName + ' joined the private channel');
 }

@@ -4,6 +4,7 @@ import pack from '../../nephbot/pack.js';
 
 import output from '../../helpers/output';
 
+// send direct message
 export default (st, userId, msg) => {
   const type = auth.AOCP.MESSAGE_PRIVATE;
 

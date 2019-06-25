@@ -23,8 +23,9 @@ export default function readState () {
     return parsedData;
 
   } catch (err) {
-    console.log('empty state returned, file read error:', err)
-    return {};
+    console.log('empty state created as file not found')
+    const parsedData = {};
+    parsedData.admins = settings.admins;
+    return parsedData;
   }
-
 }
