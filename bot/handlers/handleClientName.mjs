@@ -9,16 +9,16 @@ import output from '../../helpers/output.mjs';
 // which happens when id is first looked up by game instance
 // can happen after first interaction per session
 export default st => (data, unpacked) => {
-  console.log(); output('handleClientName');
+  output(); output('handleClientName');
 
   const userId = unpacked.I();  // id of user
   const userName = unpacked.S(); // name of user
 
   output('userId: ' + userId + ' is userName: "' + userName + '"');
-  output();
   unpacked.done()
 
   // add userId/userName pair to state to use easily
+  // store user data under userid
 
   // create userIds object in state if not one there already
   // output('st =');
@@ -31,11 +31,17 @@ export default st => (data, unpacked) => {
     st.userIds[userId] = {};
     output('userId was not found but will be added');
   } else {
-    output('userId was known and updated');
+    output('userId was known');
   }
   st.userIds[userId].userName = userName;
 
-  output('\n', st.userIds);
+  // create reverse look up hashtable of just id from names
+  if (!st.userNames) {
+    st.userNames = {};
+  }
+  st.userNames[userName] = userId;
+
+  // output('\n', st.userIds);
 
   // assemble packed packet with response & broadcast
   // const type = auth.AOCP.MESSAGE_PRIVATE;
@@ -47,5 +53,5 @@ export default st => (data, unpacked) => {
   // ];
   // socket.write(auth.assemble_packet(type, pack.pack(spec)));
   // output('%s -> %d', response, userId);
-  output('handleClientName complete'); console.log();
+  // output('handleClientName complete'); console.log();
 }

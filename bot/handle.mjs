@@ -8,8 +8,9 @@ import handlePM from './handlers/handlePM';
 import handleBuddyAdd from './handlers/handleBuddyAdd';
 import handleBuddyRemove from './handlers/handleBuddyRemove';
 import handleClientName from './handlers/handleClientName';
+import handleGroupAnnounce from './handlers/handleGroupAnnounce';
 
-// object of response handling functions with events as keys
+// object of connection response handling functions with type as keys
 export default function handle (st) {
 
   const respondTo = {}; // create object
@@ -31,6 +32,9 @@ export default function handle (st) {
 
   // when client name packet is seen (after name added to recent/friends list)
   respondTo[auth.AOCP.CLIENT_NAME] = handleClientName(st);
+
+  // handle new channel found
+  respondTo[auth.AOCP.GROUP_ANNOUNCE] = handleGroupAnnounce(st);
 
   return respondTo;
 }
