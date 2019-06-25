@@ -5,22 +5,16 @@ import assert from 'assert';
 // UTC time stamped console output
 import output from '../helpers/output.mjs';
 
-// designate state object location
-const st = {};
-// todo: add reading from past state
-
-
 // socket communication
 import net from 'net';
-st.socket = new net.Socket(); // add to state
-const socket = st.socket; //short hand
+import readState from './readState';
 
  // does connection formating & reading (nephbot chat logic)
 import auth from '../nephbot/auth.js';
 import pack from '../nephbot/pack.js';
 
 import handle from './handle';
-const handler = handle(st);
+
 
 import updateStateLoop from './updateStateLoop';
 
@@ -31,6 +25,13 @@ const HOST = 'chat.d1.funcom.com';
 const PORT = '7106';
 
 export default async function initializeBot () {
+  // read past state from file
+  const st = readState();
+
+  // create new connection
+  st.socket = new net.Socket(); // add to state
+  const socket = st.socket; //short hand
+  const handler = handle(st);
 
   output('attempting to connect');
   // connect to server (converting callback in .connect() to promise)

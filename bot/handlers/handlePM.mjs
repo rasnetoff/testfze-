@@ -12,6 +12,7 @@ export default st => (data, unpacked) => {
   const userId = unpacked.I();  // id of  user who sent pm
   const text = unpacked.S(); // text user sent
   const unknownPart = unpacked.S();
+  unpacked.done()
 
   const userName = st.userIds ? st.userIds[userId] ? st.userIds[userId].userName : undefined : undefined;
 

@@ -16,6 +16,6 @@ export default st => (data, unpacked) => {
 
   output('userId:', userId);
   output('userStatus:', userStatus)
-  output('unknownPart:', unknownPart);
+  // output('unknownPart:', unknownPart);
   output(unpacked);
 }

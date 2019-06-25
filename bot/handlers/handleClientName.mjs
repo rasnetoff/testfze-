@@ -21,6 +21,9 @@ export default st => (data, unpacked) => {
   // add userId/userName pair to state to use easily
 
   // create userIds object in state if not one there already
+  // output('st =');
+  // output(st);
+
   if (!st.userIds) {
     st.userIds = {};
   }
