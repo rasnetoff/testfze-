@@ -10,7 +10,7 @@ export default (st, botId, msg) => {
 
   const spec = [
     ['I', botId],
-    ['S', `<font color=\'#89D2E8\'>` + msg + '</font>'],
+    ['S', `<font color='#89D2E8'>` + msg + '</font>'],
     ['S', '\0']
   ];
   st.socket.write(auth.assemble_packet(type, pack.pack(spec)));
@@ -18,4 +18,4 @@ export default (st, botId, msg) => {
   const botName = st.userIds[botId].userName;
 
   output('  [' + botName + ']: ', botName, ': ' + msg);
-}
+};

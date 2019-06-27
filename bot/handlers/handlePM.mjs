@@ -1,7 +1,3 @@
-// does connection formating & reading (nephbot communication logic)
-import auth from '../../nephbot/auth.js';
-import pack from '../../nephbot/pack.js';
-
 // UTC time stamped console output
 import output from '../../helpers/output';
 
@@ -12,10 +8,10 @@ import commands from '../commands';
 export default st => (data, unpacked) => {
   output(); output('handlePM');
 
-  const userId = unpacked.I();  // id of  user who sent pm
-  const msg = unpacked.S(); // text user sent
-  const unknownPart = unpacked.S();
-  unpacked.done()
+  const userId = unpacked.I(); // id of  user who sent pm
+  const msg = unpacked.S().toLowerCase(); // text user sent
+  // const unknownPart = unpacked.S();
+  unpacked.done();
 
   const userName = st.userIds[userId].userName;
 
@@ -38,4 +34,4 @@ export default st => (data, unpacked) => {
   } else {
     output('  not a command');
   }
-}
+};

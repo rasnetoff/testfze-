@@ -17,4 +17,4 @@ export default (st, userId) => {
   ];
   st.socket.write(auth.assemble_packet(type, pack.pack(spec)));
   output('Invite to priv group sent to', userName);
-}
+};

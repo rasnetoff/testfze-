@@ -1,6 +1,6 @@
 // does connection formating & reading (nephbot communication logic)
-import auth from '../../nephbot/auth.js';
-import pack from '../../nephbot/pack.js';
+// import auth from '../../nephbot/auth.js';
+// import pack from '../../nephbot/pack.js';
 
 // UTC time stamped console output
 import output from '../../helpers/output.mjs';
@@ -11,8 +11,8 @@ export default st => (data, unpacked) => {
 
   const chBuffer = unpacked.G();
   const channelName = unpacked.S();
-  const unknownId = unpacked.I();
-  const unknownPart = unpacked.S();
+  // const unknownId = unpacked.I();
+  // const unknownPart = unpacked.S();
   unpacked.done();
 
   output('channelName:', channelName);
@@ -20,6 +20,5 @@ export default st => (data, unpacked) => {
   // create channels obj in state if not there yet
   st.channels || (st.channels = {});
 
-
   st.channels[channelName] = chBuffer;
-}
+};

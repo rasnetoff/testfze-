@@ -16,7 +16,5 @@ export default (st, userId, msg) => {
   st.socket.write(auth.assemble_packet(type, pack.pack(spec)));
 
   const userName = st.userIds[userId].userName;
-  output('Tell sent to ' + userName + ': ' + msg + '\n')
-
-  // const response = '<font color=\'#89D2E8\'>' + 'i am here!' + '</font>';
-}
+  output('Tell sent to ' + userName + ': ' + msg + '\n');
+};

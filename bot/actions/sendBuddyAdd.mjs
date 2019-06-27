@@ -14,6 +14,6 @@ export default (st, userId) => {
     ['I', userId],
     ['S', '\u0001']
   ];
-  socket.write(auth.assemble_packet(type, pack.pack(spec)));
+  st.socket.write(auth.assemble_packet(type, pack.pack(spec)));
   output('added as buddy:', userId);
-}
+};

@@ -1,9 +1,6 @@
 // UTC time stamped console output
 import output from '../../helpers/output';
 
-// settings
-import settings from '../../settings.json';
-
 // sending pms and pgms
 import sendPM from '../actions/sendPM';
 import sendPGM from '../actions/sendPGM';
@@ -54,20 +51,20 @@ export default st => (userId, cmd, channel = false) => {
 
     const ENTRIES_PER_PAGE = 10;
     const startingIndex = (page - 1) * ENTRIES_PER_PAGE;
-    const endingIndex = page * ENTRIES_PER_PAGE
+    const endingIndex = page * ENTRIES_PER_PAGE;
 
     const historyCut = history.slice(startingIndex, endingIndex);
 
     // shorthand
-    const botname = settings.Botname;
+    const botName = st.botName;
 
-    const nextPageLink = `[<a href='chatcmd:///tell ` + botname
-      + ` !history ` + targetNameFixed + ' ' + (page + 1) + `'>next page</a>]`;
+    const nextPageLink = `[<a href='chatcmd:///tell ` + botName +
+      ` !history ` + targetNameFixed + ' ' + (page + 1) + `'>next page</a>]`;
 
-    const response = '<a href="text://History for ' + targetNameFixed
-      + '<br>  page ' + page + ' ' + nextPageLink
-      + '<br><br>' + historyCut.join('<br><br>') + '">'
-      + targetNameFixed + ' History (page ' + page + ')</a> ';
+    const response = '<a href="text://History for ' + targetNameFixed +
+      '<br>  page ' + page + ' ' + nextPageLink +
+      '<br><br>' + historyCut.join('<br><br>') + '">' +
+      targetNameFixed + ' History (page ' + page + ')</a> ';
 
     !channel
       ? sendPM(st, userId, response)
@@ -79,4 +76,4 @@ export default st => (userId, cmd, channel = false) => {
   }
 
   // if no extra paramters, just return number of points
-}
+};

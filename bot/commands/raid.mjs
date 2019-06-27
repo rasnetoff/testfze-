@@ -2,20 +2,18 @@
 import output from '../../helpers/output';
 
 // sending pms and pgms
-import sendPM from '../actions/sendPM';
+// import sendPM from '../actions/sendPM';
 import sendPGM from '../actions/sendPGM';
-
-import settings from '../../settings.json';
 
 // raid command
 export default st => (userId, cmd, channel = false) => {
   output('raid command');
 
-   // user who did request
+  // user who did request
   const userName = st.userIds[userId].userName;
 
   // bot channel to use
-  const botName = settings.Botname;
+  const botName = st.botName;
   const botId = st.userNames[botName];
 
   // array of parameters
@@ -30,8 +28,8 @@ export default st => (userId, cmd, channel = false) => {
     // !raid or !raid info
     if ((words === 1 && params[0] === '') || (words === 1 && params[0] === 'info')) {
       const linkWords = st.raid.open
-        ? (st.raid.name ? '"' + st.raid.name + '" ' : '')
-        + 'Raid Info (opened by ' + st.raid.leader + ')'
+        ? (st.raid.name ? '"' + st.raid.name + '" ' : '') +
+        'Raid Info (opened by ' + st.raid.leader + ')'
         : st.raid.party.length
           ? 'Raid information (closed)'
           : 'No raid in progress';
@@ -39,17 +37,17 @@ export default st => (userId, cmd, channel = false) => {
       const joinLink =
         `<a href='chatcmd:///tell ` + botName + ` !raid join'>!raid join</a>`;
 
-      const info = '<a href="text://Raid Information<br><br>'
-        + 'Raid name: ' + st.raid.name + '<br><br>'
-        + (
-            st.raid.open
-              ? 'Open for ' + joinLink
-              : st.raid.party.length
-                ? 'Closed'
-                : 'No raid'
-        ) + '<br><br>'
-        + 'Participants:<br><br>  '
-        + st.raid.party.join('<br>  ') + '">' + linkWords + '</a>';
+      const info = '<a href="text://Raid Information<br><br>' +
+        'Raid name: ' + st.raid.name + '<br><br>' +
+        (
+          st.raid.open
+            ? 'Open for ' + joinLink
+            : st.raid.party.length
+              ? 'Closed'
+              : 'No raid'
+        ) + '<br><br>' +
+        'Participants:<br><br>  ' +
+        st.raid.party.join('<br>  ') + '">' + linkWords + '</a>';
 
       sendPGM(st, botId, info);
       output('raid info requested');
@@ -79,8 +77,8 @@ export default st => (userId, cmd, channel = false) => {
 
       // announce start of raid
       const linkToJoin = `[<a href='text://<a href="chatcmd:///tell ` + botName + ` !raid join">Join raid</a>'>Join raid</a>]`;
-      const announcement = userName + ' has opened a raid! '
-        + (raidName ? '"' + raidName + '"' : '') + ' ' + linkToJoin;
+      const announcement = userName + ' has opened a raid! ' +
+        (raidName ? '"' + raidName + '"' : '') + ' ' + linkToJoin;
       output(botName, botId, announcement);
       sendPGM(st, botId, announcement);
     }
@@ -177,8 +175,8 @@ export default st => (userId, cmd, channel = false) => {
       const targetNames = params.slice(1, words);
       targetNames.forEach((eaTargetName, i) => {
         targetNames[i] =
-          eaTargetName.charAt(0).toUpperCase()
-          + eaTargetName.slice(1).toLowerCase();
+          eaTargetName.charAt(0).toUpperCase() +
+          eaTargetName.slice(1).toLowerCase();
       });
 
       // remove each one from raid
@@ -228,16 +226,16 @@ export default st => (userId, cmd, channel = false) => {
         target.history || (target.history = []);
 
         const entry =
-          amount + ' pts for ' + targetName
-          + ' from ' + userName + ' ( ' + reason + ' ) '
-          + '[' + targetName + ' balance = ' + st.userIds[targetId].points + ']';
+          amount + ' pts for ' + targetName +
+          ' from ' + userName + ' ( ' + reason + ' ) ' +
+          '[' + targetName + ' balance = ' + st.userIds[targetId].points + ']';
         target.history.unshift(time + ' :: ' + entry);
 
         // same entry for giver but in altered color
         const sender = st.userIds[userId];
         sender.history || (sender.history = []);
         sender.history.unshift(
-          time + ' :: ' + `<font color=\'#89D2E8\'>Mod/admin action: ` + entry + '</font>'
+          time + ' :: ' + `<font color='#89D2E8'>Mod/admin action: ` + entry + '</font>'
         );
       });
 
@@ -247,11 +245,9 @@ export default st => (userId, cmd, channel = false) => {
       sendPGM(st, botId, announce);
     }
 
-
     output('raid party:', st.raid.party.join(', '));
 
   } catch (err) {
     output(err);
   }
-}
-
+};

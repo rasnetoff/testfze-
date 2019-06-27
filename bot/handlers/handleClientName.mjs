@@ -1,6 +1,6 @@
 // does connection formating & reading (nephbot communication logic)
-import auth from '../../nephbot/auth.js';
-import pack from '../../nephbot/pack.js';
+// import auth from '../../nephbot/auth.js';
+// import pack from '../../nephbot/pack.js';
 
 // UTC time stamped console output
 import output from '../../helpers/output.mjs';
@@ -11,11 +11,11 @@ import output from '../../helpers/output.mjs';
 export default st => (data, unpacked) => {
   output(); output('handleClientName');
 
-  const userId = unpacked.I();  // id of user
+  const userId = unpacked.I(); // id of user
   const userName = unpacked.S(); // name of user
 
   output('userId: ' + userId + ' is userName: "' + userName + '"');
-  unpacked.done()
+  unpacked.done();
 
   // add userId/userName pair to state to use easily
   // store user data under userid
@@ -54,4 +54,4 @@ export default st => (data, unpacked) => {
   // socket.write(auth.assemble_packet(type, pack.pack(spec)));
   // output('%s -> %d', response, userId);
   // output('handleClientName complete'); console.log();
-}
+};

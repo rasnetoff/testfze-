@@ -8,7 +8,6 @@ import sendPGM from '../actions/sendPGM';
 export default st => (userId, cmd, channel = false) => {
   output('points command');
 
-
   // user who did request
   const userName = st.userIds[userId].userName;
 
@@ -18,7 +17,7 @@ export default st => (userId, cmd, channel = false) => {
 
   // output(params);
 
-  // if no extra paramters or just name, just return number of points
+  // !points or !points name
   if (words === 1) {
     let targetName;
     if (params[0] === '') {
@@ -56,6 +55,7 @@ export default st => (userId, cmd, channel = false) => {
     return undefined;
   }
 
+  // !points give name 5 reason
   // if next parameter is give, check permission levels, and update state
   if (params[0] === 'give' || params[0] === 'add') {
     output('points command > add points');
@@ -79,18 +79,17 @@ export default st => (userId, cmd, channel = false) => {
       const amount = parseInt(params[2]);
 
       // if target name provided and known update points
-      if ( targetId && !isNaN(amount) ) {
+      if (targetId && !isNaN(amount)) {
         // set to 0 if not set yet and falsy
         st.userIds[targetId].points = st.userIds[targetId].points || 0;
         st.userIds[targetId].points += amount;
 
-
         const reason = params.slice(3, words).join(' ');
 
         const response =
-          amount + ' pts for ' + targetNameFixed
-          + ' from ' + userName + ' ( ' + reason + ' ) '
-          + '[balance = ' + st.userIds[targetId].points + ']';
+          amount + ' pts for ' + targetNameFixed +
+          ' from ' + userName + ' ( ' + reason + ' ) ' +
+          '[balance = ' + st.userIds[targetId].points + ']';
         // output(response);
 
         !channel
@@ -113,7 +112,7 @@ export default st => (userId, cmd, channel = false) => {
           ? sendPM(st, userId, 'Unknown user')
           : sendPGM(st, channel, 'Unknown user');
       } else {
-        throw 'target id or amount not provided correctly';
+        throw new Error('target id or amount not provided correctly');
       }
 
       return undefined; // terminate function
@@ -129,4 +128,4 @@ export default st => (userId, cmd, channel = false) => {
     : sendPGM(st, channel, 'Invalid format: !points or !points user or !points give|add name number [reason]');
 
   // output('points.mjs done \n');
-}
+};

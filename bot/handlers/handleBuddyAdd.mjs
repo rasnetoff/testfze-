@@ -1,6 +1,6 @@
 // does connection formating & reading (nephbot communication logic)
-import auth from '../../nephbot/auth.js';
-import pack from '../../nephbot/pack.js';
+// import auth from '../../nephbot/auth.js';
+// import pack from '../../nephbot/pack.js';
 
 // UTC time stamped console output
 import output from '../../helpers/output.mjs';
@@ -9,13 +9,13 @@ import output from '../../helpers/output.mjs';
 export default st => (data, unpacked) => {
   output(); output('handleBuddyAdd');
 
-  const userId = unpacked.I();  // id of user
-  const userStatus = unpacked.I() == 1 ? 'online' : 'offline';
-  const unknownPart = unpacked.S();
+  const userId = unpacked.I(); // id of user
+  const userStatus = (unpacked.I() === 1) ? 'online' : 'offline';
+  // const unknownPart = unpacked.S();
   unpacked.done();
 
   output('userId:', userId);
-  output('userStatus:', userStatus)
+  output('userStatus:', userStatus);
   // output('unknownPart:', unknownPart);
   output(unpacked);
-}
+};

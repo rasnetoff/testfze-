@@ -13,6 +13,6 @@ export default (st, userId) => {
   const spec = [
     ['I', userId]
   ];
-  socket.write(auth.assemble_packet(type, pack.pack(spec)));
+  st.socket.write(auth.assemble_packet(type, pack.pack(spec)));
   output('removed as buddy:', userId);
-}
+};

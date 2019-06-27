@@ -16,12 +16,15 @@ export default function readState () {
     console.log('state loaded successfully');
 
     // add admins from settings
-    parsedData.admins = settings.admins;
+    parsedData.Admins = settings.admins;
+
+    // add botName from settings
+    parsedData.botName = settings.Botname;
 
     return parsedData;
 
   } catch (err) {
-    console.log('empty state created as file not found')
+    console.log('empty state created as file not found');
     const parsedData = {};
     parsedData.admins = settings.admins;
     return parsedData;

@@ -20,7 +20,7 @@ export default st => data => {
   const pass = settings.Password;
 
   const seedLength = data.readInt16BE(0);
-  assert.equal(seedLength, data.length - 2); // quick sanity check
+  assert.strict.equal(seedLength, data.length - 2); // quick sanity check
   const seed = data.slice(2);
 
   // assemble packed packet & broadcast
@@ -28,7 +28,7 @@ export default st => data => {
     ['I', 0],
     ['S', login],
     ['S', auth.generate_login_key(seed, login, pass)]
-  ])
+  ]);
   const pp = auth.assemble_packet(auth.AOCP.LOGIN_REQUEST, spec);
   st.socket.write(pp);
-}
+};

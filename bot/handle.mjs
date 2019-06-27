@@ -12,7 +12,6 @@ import handleClientName from './handlers/handleClientName';
 import handlePrivGrpCliJoin from './handlers/handlePrivGrpCliJoin';
 import handlePrivGrpMessage from './handlers/handlePrivGrpMessage';
 
-
 // object of connection response handling functions with type as keys
 export default function handle (st) {
 

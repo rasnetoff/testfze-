@@ -3,6 +3,7 @@ import history from './commands/history';
 import join from './commands/join';
 import leave from './commands/leave';
 import raid from './commands/raid';
+import help from './commands/help';
 
 export default st => {
   const knownCommands = {};
@@ -17,5 +18,7 @@ export default st => {
 
   knownCommands['raid'] = raid(st);
 
+  knownCommands['help'] = help(st);
+
   return knownCommands;
-}
+};

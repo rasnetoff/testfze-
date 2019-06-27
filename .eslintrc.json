@@ -1,0 +1,21 @@
+{
+  "extends": "standard",
+
+  "rules": {
+    "semi": ["error", "always"],
+    "no-extra-semi": "error",
+    "indent": ["error", 2],
+    "no-unused-vars": ["warn", {"vars": "local", "args": "none"}],
+    "camelcase": ["off", {"properties": "never"}],
+    "padded-blocks": "off",
+    "no-undef": "warn",
+    "new-cap": ["warn", {"properties": false}]
+  },
+
+  "globals": {
+    "React": false
+  },
+
+  "parserOptions": {
+  }
+}

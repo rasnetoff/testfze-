@@ -12,5 +12,9 @@
     "assert": "^2.0.0",
     "base85": "^2.2.0",
     "bignum": "^0.13.0"
+  },
+  "devDependencies": {
+    "eslint": "^6.0.1",
+    "semistandard": "^13.0.1"
   }
 }

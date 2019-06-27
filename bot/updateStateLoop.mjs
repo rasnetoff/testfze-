@@ -9,7 +9,7 @@ export default async function updateStateLoop (st) {
   fs.writeFileSync(PATH, JSON.stringify(st, null, 2));
 
   // time delay
-  await new Promise(done => setTimeout(done, 5000));
+  await new Promise(resolve => setTimeout(resolve, 5000));
 
   // loop
   updateStateLoop(st);

@@ -1,6 +1,6 @@
 // does connection formating & reading (nephbot communication logic)
-import auth from '../../nephbot/auth.js';
-import pack from '../../nephbot/pack.js';
+// import auth from '../../nephbot/auth.js';
+// import pack from '../../nephbot/pack.js';
 
 // UTC time stamped console output
 import output from '../../helpers/output.mjs';
@@ -9,11 +9,11 @@ import output from '../../helpers/output.mjs';
 export default st => (data, unpacked) => {
   output(); output('handlePrivGrpCliJoin');
 
-  const botId = unpacked.I();
+  // const botId = unpacked.I();
   const userId = unpacked.I();
   unpacked.done();
 
   const userName = st.userIds[userId].userName;
 
   output('  ' + userName + ' joined the private channel');
-}
+};

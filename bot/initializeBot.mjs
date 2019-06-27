@@ -7,7 +7,7 @@ import output from '../helpers/output.mjs';
 import net from 'net';
 import readState from './readState';
 
- // does connection formating & reading (nephbot chat logic)
+// does connection formating & reading (nephbot chat logic)
 import auth from '../nephbot/auth.js';
 import pack from '../nephbot/pack.js';
 
@@ -27,7 +27,7 @@ export default async function initializeBot () {
 
   // create new connection
   st.socket = new net.Socket(); // add to state
-  const socket = st.socket; //short hand
+  const socket = st.socket; // short hand
   const handler = handle(st);
 
   output('Attempting to connect...');
@@ -35,9 +35,9 @@ export default async function initializeBot () {
   // (TODO: add reject error and catch)
   await (() => new Promise((resolve, reject) => {
     socket.connect(PORT, HOST, () => {
-        output('Connection Established!');
-        resolve();
-      });
+      output('Connection Established!');
+      resolve();
+    });
   }))();
 
   // what to do async when readable event detected on socket connection
@@ -46,7 +46,7 @@ export default async function initializeBot () {
     // output('Readable event!');
     let newlyRead = socket.read(); // read new stuff
     remains = Buffer.concat([remains, newlyRead]); // add to unparsed
-    while ( parseChunk(remains) ); // parse unparsed remains until done
+    while (parseChunk(remains)); // parse unparsed remains until done
   });
 
   socket.on('end', () => {
@@ -69,9 +69,8 @@ export default async function initializeBot () {
     output('socket closed');
   });
 
-
   // helper for socket data parsing
-  function parseChunk ( buf ) {
+  function parseChunk (buf) {
     const p = auth.parse_packet(buf); // split part of data and type into separate keys
 
     remains = p.remains; // update remains to only unparsed remains
@@ -86,11 +85,11 @@ export default async function initializeBot () {
 
     // assign event handling function
     if (p.type in handler) {
-      output("Packet type # " + p.type + ' found');
+      output('Packet type # ' + p.type + ' found');
       handler[p.type](p.data, new pack.Unpacker(p.data));
       // handler should be able to handle unpacked data of this type
     } else {
-      output("Packet type # " + p.type + ' is currently unspecified');
+      output('Packet type # ' + p.type + ' is currently unspecified');
       // console.log(p.data.toString('hex'));
     }
     return true; // keep on parsing (until not enough data)

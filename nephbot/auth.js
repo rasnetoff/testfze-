@@ -1,4 +1,5 @@
 // from https://github.com/Nepherius/Nephbot/blob/master/system/
+/* eslint-disable */
 
 var fs = require('fs')
 var assert = require('assert')
