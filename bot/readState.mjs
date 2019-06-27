@@ -16,8 +16,6 @@ export default function readState () {
     console.log('state loaded successfully');
 
     // add admins from settings
-    // parsedData.admins || (parsedData.admins = []);
-    // parsedData.admins = [...parsedData.admins, ...settings.admins];
     parsedData.admins = settings.admins;
 
     return parsedData;

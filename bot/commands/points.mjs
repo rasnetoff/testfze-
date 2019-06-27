@@ -102,6 +102,10 @@ export default st => (userId, cmd, channel = false) => {
         target.history || (target.history = []);
         target.history.unshift(time + ' :: ' + response);
 
+        const sender = st.userIds[userId];
+        sender.history || (sender.history = []);
+        sender.history.unshift(time + ' :: ' + response);
+
         // console.log(target.history);
 
       } else if (!targetId) {
