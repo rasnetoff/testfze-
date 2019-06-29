@@ -11,7 +11,7 @@ export default st => (data, unpacked) => {
   const botId = unpacked.I();
   const userId = unpacked.I();
   const msg = unpacked.S();
-  // const unknownPart = unpacked.S();
+  unpacked.S();
   unpacked.done();
 
   const userName = st.userIds[userId].userName;

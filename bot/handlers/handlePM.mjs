@@ -10,7 +10,7 @@ export default st => (data, unpacked) => {
 
   const userId = unpacked.I(); // id of  user who sent pm
   const msg = unpacked.S().toLowerCase(); // text user sent
-  // const unknownPart = unpacked.S();
+  unpacked.S();
   unpacked.done();
 
   const userName = st.userIds[userId].userName;

@@ -11,7 +11,7 @@ export default st => (data, unpacked) => {
 
   const userId = unpacked.I(); // id of user
   const userStatus = (unpacked.I() === 1) ? 'online' : 'offline';
-  // const unknownPart = unpacked.S();
+  unpacked.S();
   unpacked.done();
 
   output('userId:', userId);

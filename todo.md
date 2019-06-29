@@ -1,3 +1,3 @@
-* make html log file of all important actions on bot
-* make log file of all actions on bot
-* create file writing queue
+* raid leader consoles
+* bidding console
+* queue for pgm and pm from bot (1 per sec max)

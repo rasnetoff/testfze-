@@ -1,10 +1,12 @@
 // UTC time stamped console output
 import output from '../../helpers/output';
+import formatName from '../../helpers/formatName';
 
 // sending pms and pgms
 import sendPM from '../actions/sendPM';
 import sendPGM from '../actions/sendPGM';
 
+// !history command
 export default st => (userId, cmd, channel = false) => {
   output('history command');
 
@@ -17,14 +19,13 @@ export default st => (userId, cmd, channel = false) => {
 
   let targetName, page;
 
+  // !history
   if (words === 1 && params[0] === '') {
-    // sendPM(st, userId, 'Invalid format: !history user [page]');
-    // return undefined;
     targetName = userName;
   } else if (words === 1) {
-    targetName = params[0];
+    targetName = formatName(params[0]);
   } else if (words === 2 && !isNaN(parseInt(params[1]))) {
-    targetName = params[0];
+    targetName = formatName(params[0]);
     page = parseInt(params[1]);
   } else {
     !channel
@@ -33,15 +34,8 @@ export default st => (userId, cmd, channel = false) => {
     return undefined;
   }
 
-  // output(cmd);
-  // output(params);
-
-  const targetNameFixed =
-      targetName.charAt(0).toUpperCase() +
-      targetName.slice(1).toLowerCase();
-
-  const targetId = st.userNames[targetNameFixed]
-    ? st.userNames[targetNameFixed]
+  const targetId = st.userNames[targetName]
+    ? st.userNames[targetName]
     : undefined;
 
   if (targetId) {
@@ -59,21 +53,20 @@ export default st => (userId, cmd, channel = false) => {
     const botName = st.botName;
 
     const nextPageLink = `[<a href='chatcmd:///tell ` + botName +
-      ` !history ` + targetNameFixed + ' ' + (page + 1) + `'>next page</a>]`;
+      ` !history ` + targetName + ' ' + (page + 1) + `'>next page</a>]`;
 
-    const response = '<a href="text://History for ' + targetNameFixed +
+    const response = '<a href="text://History for ' + targetName +
       '<br>  page ' + page + ' ' + nextPageLink +
       '<br><br>' + historyCut.join('<br><br>') + '">' +
-      targetNameFixed + ' History (page ' + page + ')</a> ';
+      targetName + ' History (page ' + page + ')</a> ';
 
     !channel
       ? sendPM(st, userId, response)
       : sendPGM(st, channel, response);
+
   } else {
     !channel
       ? sendPM(st, userId, 'Unknown user')
       : sendPGM(st, channel, 'Unknown user');
   }
-
-  // if no extra paramters, just return number of points
 };

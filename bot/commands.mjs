@@ -4,6 +4,7 @@ import join from './commands/join';
 import leave from './commands/leave';
 import raid from './commands/raid';
 import help from './commands/help';
+import loot from './commands/loot';
 
 export default st => {
   const knownCommands = {};
@@ -19,6 +20,8 @@ export default st => {
   knownCommands['raid'] = raid(st);
 
   knownCommands['help'] = help(st);
+
+  knownCommands['loot'] = loot(st);
 
   return knownCommands;
 };

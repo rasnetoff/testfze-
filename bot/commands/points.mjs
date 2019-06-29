@@ -1,9 +1,12 @@
 // UTC time stamped console output
 import output from '../../helpers/output';
+import formatName from '../../helpers/formatName';
 
 // sending pms and pgms
 import sendPM from '../actions/sendPM';
 import sendPGM from '../actions/sendPGM';
+
+import givePoints from '../state/givePoints';
 
 export default st => (userId, cmd, channel = false) => {
   output('points command');
@@ -15,21 +18,16 @@ export default st => (userId, cmd, channel = false) => {
   const params = cmd.split(' ');
   const words = params.length;
 
-  // output(params);
-
   // !points or !points name
   if (words === 1) {
     let targetName;
     if (params[0] === '') {
       targetName = userName;
     } else {
-      targetName = params[0];
+      targetName = formatName(params[0]);
     }
-    const targetNameFixed =
-      targetName.charAt(0).toUpperCase() +
-      targetName.slice(1).toLowerCase();
-    const targetId = st.userNames[targetNameFixed]
-      ? st.userNames[targetNameFixed]
+    const targetId = st.userNames[targetName]
+      ? st.userNames[targetName]
       : undefined;
 
     if (targetId) {
@@ -69,43 +67,22 @@ export default st => (userId, cmd, channel = false) => {
         return undefined;
       }
 
-      const targetName = params[1];
-      const targetNameFixed =
-        targetName.charAt(0).toUpperCase() +
-        targetName.slice(1).toLowerCase();
-      const targetId = st.userNames[targetNameFixed]
-        ? st.userNames[targetNameFixed]
+      const targetName = formatName(params[1]);
+
+      const targetId = st.userNames[targetName]
+        ? st.userNames[targetName]
         : undefined;
       const amount = parseInt(params[2]);
+      const reason = params.slice(3, words).join(' ');
 
       // if target name provided and known update points
       if (targetId && !isNaN(amount)) {
-        // set to 0 if not set yet and falsy
-        st.userIds[targetId].points = st.userIds[targetId].points || 0;
-        st.userIds[targetId].points += amount;
 
-        const reason = params.slice(3, words).join(' ');
-
-        const response =
-          amount + ' pts for ' + targetNameFixed +
-          ' from ' + userName + ' ( ' + reason + ' ) ' +
-          '[balance = ' + st.userIds[targetId].points + ']';
-        // output(response);
+        const response = givePoints(st, userId, targetId, amount, reason);
 
         !channel
           ? sendPM(st, userId, response)
           : sendPGM(st, channel, response);
-
-        const time = new Date().toISOString();
-        const target = st.userIds[targetId];
-        target.history || (target.history = []);
-        target.history.unshift(time + ' :: ' + response);
-
-        const sender = st.userIds[userId];
-        sender.history || (sender.history = []);
-        sender.history.unshift(time + ' :: ' + response);
-
-        // console.log(target.history);
 
       } else if (!targetId) {
         !channel
@@ -126,6 +103,4 @@ export default st => (userId, cmd, channel = false) => {
   !channel
     ? sendPM(st, userId, 'Invalid format: !points or !points user or !points give|add name number [reason]')
     : sendPGM(st, channel, 'Invalid format: !points or !points user or !points give|add name number [reason]');
-
-  // output('points.mjs done \n');
 };

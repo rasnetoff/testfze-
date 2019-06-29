@@ -2,8 +2,11 @@
 import output from '../../helpers/output';
 
 // sending pms and pgms
-// import sendPM from '../actions/sendPM';
 import sendPGM from '../actions/sendPGM';
+
+// state setters/getters
+import getId from '../state/getId';
+import givePoints from '../state/givePoints';
 
 // raid command
 export default st => (userId, cmd, channel = false) => {
@@ -213,30 +216,7 @@ export default st => (userId, cmd, channel = false) => {
 
       st.raid.party.forEach(targetName => {
         // grab id for each party member
-        const targetId = st.userNames[targetName];
-        // set their points to 0 if they have no entry
-        st.userIds[targetId].points = st.userIds[targetId].points || 0;
-        // give them the points promised
-        st.userIds[targetId].points += amount;
-
-        // add entry to history of giver and receiver
-        const time = new Date().toISOString();
-
-        const target = st.userIds[targetId];
-        target.history || (target.history = []);
-
-        const entry =
-          amount + ' pts for ' + targetName +
-          ' from ' + userName + ' ( ' + reason + ' ) ' +
-          '[' + targetName + ' balance = ' + st.userIds[targetId].points + ']';
-        target.history.unshift(time + ' :: ' + entry);
-
-        // same entry for giver but in altered color
-        const sender = st.userIds[userId];
-        sender.history || (sender.history = []);
-        sender.history.unshift(
-          time + ' :: ' + `<font color='#89D2E8'>Mod/admin action: ` + entry + '</font>'
-        );
+        givePoints(st, userId, getId(targetName), amount, reason);
       });
 
       const announce =

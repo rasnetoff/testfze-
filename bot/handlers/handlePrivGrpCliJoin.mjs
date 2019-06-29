@@ -9,7 +9,7 @@ import output from '../../helpers/output.mjs';
 export default st => (data, unpacked) => {
   output(); output('handlePrivGrpCliJoin');
 
-  // const botId = unpacked.I();
+  unpacked.I(); // const botId =
   const userId = unpacked.I();
   unpacked.done();
 
