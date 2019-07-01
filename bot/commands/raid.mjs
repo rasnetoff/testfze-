@@ -87,7 +87,7 @@ export default st => (userId, cmd, channel = false) => {
     }
 
     // !raid end or !raid clear
-    if ((params[0] === 'end' || params[0] === 'clear') && words === 1) {
+    if ((params[0] === 'end' || params[0] === 'clear' || params[0] === 'stop') && words === 1) {
 
       // stop if not enough permission
       if (!st.admins[userName]) {

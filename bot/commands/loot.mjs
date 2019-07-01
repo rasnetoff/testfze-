@@ -1,12 +1,12 @@
-// UTC time stamped console output
+// helpers
 import output from '../../helpers/output';
+import splitIntoItems from '../../helpers/splitIntoItems';
 
 // sending pms and pgms
 import sendPGM from '../actions/sendPGM';
+import sendPM from '../actions/sendPM';
 
 // state setters/getters
-import getId from '../state/getId';
-import givePoints from '../state/givePoints';
 
 // loot command
 export default st => (userId, cmd, channel = false) => {
@@ -32,12 +32,24 @@ export default st => (userId, cmd, channel = false) => {
 
     // !loot add item1 item2 item3
     if (params[0] === 'add') {
+
+      if (!st.admins[userName]) {
+        const issue = userName + ' lacks admin/mod permissions to add loot';
+        sendPGM(st, botId, issue);
+        throw issue;
+      }
+
       const strItems = params.slice(1, words).join(' ');
-      output(params);
-      output(strItems);
+      const items = splitIntoItems(strItems);
+      output(items);
+      sendPM(st, userId, items.join('<br>'));
+
+      st.loot || (st.loot = []); // initiate loot array
+
     }
 
   } catch (err) {
     output(err);
   }
+
 };

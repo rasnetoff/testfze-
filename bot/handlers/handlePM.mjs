@@ -9,7 +9,7 @@ export default st => (data, unpacked) => {
   output(); output('handlePM');
 
   const userId = unpacked.I(); // id of  user who sent pm
-  const msg = unpacked.S().toLowerCase(); // text user sent
+  const msg = unpacked.S(); // text user sent
   unpacked.S();
   unpacked.done();
 
